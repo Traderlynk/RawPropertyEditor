@@ -15,7 +15,7 @@
            java.util.Map,org.jivesoftware.util.*,java.io.File,java.util.Stack, java.io.File
  ,java.io.IOException
 , java.nio.file.Files
-, java.nio.file.Paths;"
+, java.nio.file.Paths,org.apache.commons.lang.StringEscapeUtils;"
 	errorPage="error.jsp"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -25,7 +25,8 @@
 	String username = ParamUtils.getParameter(request, "username");
 	String propname2 = request.getParameter("propname2");
 	String propvalue2 = request.getParameter("propvalue2");
-	RawPropertyEditor plugin = (RawPropertyEditor) XMPPServer.getInstance().getPluginManager().getPlugin("rawPropertyEditor");
+	RawPropertyEditor plugin = (RawPropertyEditor) XMPPServer.getInstance().getPluginManager()
+			.getPlugin("rawPropertyEditor");
 	Map<String, String> properties = null;
 
 	if (!username.isEmpty() && username != null) {
@@ -134,21 +135,25 @@
 							for (Map.Entry<String, String> property : properties.entrySet()) {
 								String propname = property.getKey().toString();
 								String propvalue = property.getValue().toString();
-								propname = StringUtils.replace(StringUtils.escapeHTMLTags(propname), "'", "''");
-								propvalue = StringUtils.replace(StringUtils.escapeHTMLTags(propvalue), "'", "''");
+								String propnameES = StringUtils.replace(StringUtils.escapeHTMLTags(propname), "'", "''");
+								String propvalueES = StringUtils.replace(StringUtils.escapeHTMLTags(propvalue), "'", "''");
 					%>
 
 					<tr>
-						<td><%=propname%></td>
-						<td><%=propvalue%></td>
+						<td><%=propnameES%></td>
+						<td><%=propvalueES%></td>
 						<td align="center"><img src="images/file1.png"
-							onclick="doedit('<%=propname + "','" + propvalue + "','" + username%>')"></td>
+							onclick="doedit('<%=StringEscapeUtils.escapeJavaScript(propname) + "','"
+							+ StringEscapeUtils.escapeJavaScript(propvalue) + "','"
+							+ StringEscapeUtils.escapeJavaScript(username)%>')"></td>
 						<%
 							/*
-																<td align="center"><img src="images/file2.png"></td>*/
+																																<td align="center"><img src="images/file2.png"></td>*/
 						%>
 						<td align="center"><img src="images/file.png"
-							onclick="dodelete('<%=propname + "','" + propvalue + "','" + username%>')"></td>
+							onclick="dodelete('<%=StringEscapeUtils.escapeJavaScript(propname) + "','"
+							+ StringEscapeUtils.escapeJavaScript(propvalue) + "','"
+							+ StringEscapeUtils.escapeJavaScript(username)%>')"></td>
 
 
 					</tr>
@@ -198,13 +203,13 @@
 					</tr>
 					<%
 						/*
-											<tr valign="top">
-												<td>Property Encryption:</td>
-												<td><input type="radio" name="encrypt" value="true">Encrypt
-													this property value<br> <input type="radio" name="encrypt"
-													value="false" checked="">Do not encrypt this property
-													value</td>
-											</tr>*/
+																			<tr valign="top">
+																				<td>Property Encryption:</td>
+																				<td><input type="radio" name="encrypt" value="true">Encrypt
+																					this property value<br> <input type="radio" name="encrypt"
+																					value="false" checked="">Do not encrypt this property
+																					value</td>
+																			</tr>*/
 					%>
 				</tbody>
 				<tfoot>

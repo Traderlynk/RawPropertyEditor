@@ -1,25 +1,18 @@
 <%@page import="java.util.Hashtable"%>
 <%@page import="net.sf.antcontrib.logic.IfTask.ElseIf"%>
-<%@page import="java.util.List"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.time.format.DateTimeParseException"%>
-<%@page import="java.util.Date"%>
+
 <%@ page import="java.net.URLEncoder"%>
-<%@page import="java.time.LocalDateTime"%>
 <%@ page import="org.jivesoftware.util.Log"%>
 <%@ page
 	import="org.jivesoftware.openfire.XMPPServer,
            org.jivesoftware.openfire.plugin.RawPropertyEditor,
            org.jivesoftware.util.ParamUtils,org.jivesoftware.openfire.*,
-           java.util.HashMap,java.time.format.DateTimeFormatter,
-           java.util.Map,org.jivesoftware.util.*,java.io.File,java.util.Stack, java.io.File
- ,java.io.IOException
-, java.nio.file.Files
-, java.nio.file.Paths;"
+           java.util.HashMap,
+           java.util.Map,org.jivesoftware.util.*,org.apache.commons.lang.StringEscapeUtils;"
 	errorPage="error.jsp"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
 <%
 	boolean edit = request.getParameter("edit") != null;
 	String group = ParamUtils.getParameter(request, "group");
@@ -136,21 +129,25 @@
 							for (Map.Entry<String, String> property : properties.entrySet()) {
 								String propname = property.getKey().toString();
 								String propvalue = property.getValue().toString();
-								propname = StringUtils.replace(StringUtils.escapeHTMLTags(propname), "'", "''");
-								propvalue = StringUtils.replace(StringUtils.escapeHTMLTags(propvalue), "'", "''");
+								String propnameES = StringUtils.replace(StringUtils.escapeHTMLTags(propname), "'", "''");
+								String propvalueES = StringUtils.replace(StringUtils.escapeHTMLTags(propvalue), "'", "''");
 					%>
 
 					<tr>
-						<td><%=propname%></td>
-						<td><%=propvalue%></td>
+						<td><%=propnameES%></td>
+						<td><%=propvalueES%></td>
 						<td align="center"><img src="images/file1.png"
-							onclick="doedit('<%=propname + "','" + propvalue + "','" + group%>')"></td>
+							onclick="doedit('<%=StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(propname)) + "','"
+							+ StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(propvalue)) + "','"
+							+ group%>')"></td>
 						<%
 							/*
-																												<td align="center"><img src="images/file2.png"></td>*/
+																																				<td align="center"><img src="images/file2.png"></td>*/
 						%>
 						<td align="center"><img src="images/file.png"
-							onclick="dodelete('<%=propname + "','" + propvalue + "','" + group%>')"></td>
+							onclick="dodelete('<%=StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(propname)) + "','"
+							+ StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(propvalue)) + "','"
+							+ group%>')"></td>
 
 
 					</tr>
@@ -201,20 +198,21 @@
 					</tr>
 					<%
 						/*
-																	<tr valign="top">
-																		<td>Property Encryption:</td>
-																		<td><input type="radio" name="encrypt" value="true">Encrypt
-																			this property value<br> <input type="radio" name="encrypt"
-																			value="false" checked="">Do not encrypt this property
-																			value</td>
-																	</tr>*/
+																					<tr valign="top">
+																						<td>Property Encryption:</td>
+																						<td><input type="radio" name="encrypt" value="true">Encrypt
+																							this property value<br> <input type="radio" name="encrypt"
+																							value="false" checked="">Do not encrypt this property
+																							value</td>
+																					</tr>*/
 					%>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="2"><input type="submit" name="jsdosave"
 							value="Save Property"
-							onclick="dosave('<%=propname2 + "','" + propvalue2%>')"></td>
+							onclick="dosave('<%=StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(propname2)) + "','"
+						+ StringEscapeUtils.escapeHtml(StringEscapeUtils.escapeJavaScript(propvalue2))%>')"></td>
 					</tr>
 				</tfoot>
 			</table>

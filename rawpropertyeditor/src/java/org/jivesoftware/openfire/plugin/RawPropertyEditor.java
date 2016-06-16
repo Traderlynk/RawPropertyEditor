@@ -1,21 +1,14 @@
 package org.jivesoftware.openfire.plugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
-import org.jivesoftware.openfire.SessionManager;
-import org.jivesoftware.openfire.SessionNotFoundException;
 import org.jivesoftware.openfire.XMPPServer;
 import org.jivesoftware.openfire.container.Plugin;
 import org.jivesoftware.openfire.container.PluginManager;
 import org.jivesoftware.openfire.group.Group;
 import org.jivesoftware.openfire.group.GroupManager;
 import org.jivesoftware.openfire.group.GroupNotFoundException;
-import org.jivesoftware.openfire.muc.spi.MUCPersistenceManager;
-import org.jivesoftware.openfire.session.Session;
 import org.jivesoftware.openfire.user.User;
 import org.jivesoftware.openfire.user.UserManager;
 import org.jivesoftware.openfire.user.UserNotFoundException;
@@ -26,7 +19,6 @@ public class RawPropertyEditor implements Plugin {
 	private UserManager userManager;
 	private XMPPServer server;
 	private GroupManager groupManager;
-	private SessionManager sessionManager;
 
 	@Override
 	public void initializePlugin(PluginManager manager, File pluginDirectory) {
@@ -142,16 +134,6 @@ public class RawPropertyEditor implements Plugin {
 		return group.getProperties();
 	}
 
-	public List getUserlist() {
-		Collection coll;
-		List list;
-		coll = userManager.getUsers();
-		if (coll instanceof List)
-			list = (List) coll;
-		else
-			list = new ArrayList(coll);
-		// System.out.println(list);
-		return list;
-	}
+
 
 }

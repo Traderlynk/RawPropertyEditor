@@ -8,7 +8,7 @@
     <version>0.0.1</version>
     <date>01/01/2016</date>
    
-    <minServerVersion>4.0.0</minServerVersion>
+    <minServerVersion>3.10.3</minServerVersion>
     <adminconsole>
        
     

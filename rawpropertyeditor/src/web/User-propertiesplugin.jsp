@@ -19,7 +19,7 @@
 	String propname2 = request.getParameter("propname2");
 	String propvalue2 = request.getParameter("propvalue2");
 	RawPropertyEditor plugin = (RawPropertyEditor) XMPPServer.getInstance().getPluginManager()
-			.getPlugin("rawPropertyEditor");
+			.getPlugin("rawpropertyeditor");
 	Map<String, String> properties = null;
 
 	if (!username.isEmpty() && username != null) {
